@@ -435,13 +435,24 @@
     return lines;
   }
 
+  function getGallerySources() {
+    return Array.from(document.querySelectorAll('#gallery img')).map((img) => img.src).filter(Boolean);
+  }
+
   function buildCardHtml() {
     const name = document.getElementById('nombre').value.trim() || 'alguien muy especial';
     const title = resultTitle.textContent || 'Feliz Amor y Amistad';
     const message = resultText.textContent || 'Gracias por ser parte de mi vida.';
     const signature = resultSignature.textContent.replace('— ', '') || 'Con mucho cariño';
+    const gallerySources = getGallerySources();
     const songSource = (audioPreview && audioPreview.src && audioPreview.src.startsWith('data:audio/')) ? audioPreview.src : '';
     const videoSource = (videoPreview && videoPreview.src && !videoPreview.hidden) ? videoPreview.src : '';
+    const galleryMarkup = gallerySources.length
+      ? `
+        <div class="gallery-grid">
+          ${gallerySources.map((src) => `<img src="${src}" alt="Foto especial" />`).join('')}
+        </div>`
+      : '';
     const audioMarkup = songSource
       ? `
         <div class="audio-wrap">
@@ -480,7 +491,7 @@
       background: linear-gradient(180deg, rgba(46,19,74,0.96), rgba(18,9,31,0.96));
       border-radius: 26px;
       padding: 28px 22px;
-      box-shadow: 0 22px 52mu rgba(0,0,0,0.35);
+      box-shadow: 0 22px 52px rgba(0,0,0,0.35);
       text-align: center;
       border: 1px solid rgba(255,255,255,0.12);
     }
@@ -506,6 +517,20 @@
       font-family: Georgia, serif;
       margin: 0 auto 20px;
       max-width: 420px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 10px;
+      margin: 18px auto;
+      max-width: 360px;
+    }
+    .gallery-grid img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 14px;
+      display: block;
     }
     .audio-wrap,
     .video-wrap {
@@ -533,6 +558,7 @@
     <h1>${title}</h1>
     <div class="name">${name}</div>
     <p class="message">${message}</p>
+    ${galleryMarkup}
     ${mediaMarkup}
     ${audioMarkup}
     <div class="signature">— ${signature}</div>
@@ -608,7 +634,7 @@
     ctx.font = '700 28px sans-serif';
     ctx.fillText(name, width / 2, 455);
 
-    const photos = Array.from(document.querySelectorAll('#gallery img')).map((img) => img.src);
+    const photos = getGallerySources();
     const slots = [
       { x: 150, y: 500, w: 180, h: 180 },
       { x: 360, y: 500, w: 180, h: 180 },
@@ -617,6 +643,7 @@
 
     photos.slice(0, 3).forEach((src, index) => {
       const img = new Image();
+      img.crossOrigin = 'anonymous';
       img.src = src;
       const slot = slots[index];
       if (img.complete) {
@@ -625,8 +652,28 @@
         ctx.clip();
         ctx.drawImage(img, slot.x, slot.y, slot.w, slot.h);
         ctx.restore();
+      } else {
+        img.onload = () => {
+          ctx.save();
+          drawRoundedRect(ctx, slot.x, slot.y, slot.w, slot.h, 22);
+          ctx.clip();
+          ctx.drawImage(img, slot.x, slot.y, slot.w, slot.h);
+          ctx.restore();
+        };
       }
     });
+
+    const videoSource = videoPreview && videoPreview.src && !videoPreview.hidden ? videoPreview.src : '';
+    if (videoSource && !photos.length) {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+      drawRoundedRect(ctx, 220, 500, 460, 220, 24);
+      ctx.fill();
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '700 46px sans-serif';
+      ctx.fillText('🎬 VIDEO', width / 2, 610);
+      ctx.font = '600 22px sans-serif';
+      ctx.fillText('Video incluido en la tarjeta', width / 2, 655);
+    }
 
     ctx.fillStyle = '#f3ebff';
     ctx.font = 'italic 30px Georgia';
@@ -661,6 +708,18 @@
     const title = resultTitle.textContent || 'Feliz Amor y Amistad';
     const message = resultText.textContent || 'Gracias por ser parte de mi vida.';
     const signature = resultSignature.textContent.replace('— ', '') || 'Con mucho cariño';
+    const gallerySources = getGallerySources();
+    const photoMarkup = gallerySources.length
+      ? `
+        <div class="gallery-grid">
+          ${gallerySources.map((src) => `<img src="${src}" alt="Foto especial" />`).join('')}
+        </div>`
+      : '';
+    const songSource = (audioPreview && audioPreview.src && audioPreview.src.startsWith('data:audio/')) ? audioPreview.src : '';
+    const videoSource = (videoPreview && videoPreview.src && !videoPreview.hidden) ? videoPreview.src : '';
+    const audioMarkup = songSource ? `<audio controls autoplay loop><source src="${songSource}" /></audio>` : '';
+    const videoMarkup = videoSource ? `<video controls playsinline muted><source src="${videoSource}" /></video>` : '';
+
     const html = `<!doctype html>
 <html lang="es">
 <head>
@@ -708,6 +767,27 @@
       margin: 0 auto 20px;
       max-width: 420px;
     }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 10px;
+      margin: 18px auto;
+      max-width: 360px;
+    }
+    .gallery-grid img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 14px;
+      display: block;
+    }
+    audio, video {
+      width: 100%;
+      max-width: 360px;
+      margin: 12px auto;
+      display: block;
+      border-radius: 12px;
+    }
     .signature {
       color: #eadcf5;
       font-size: 14px;
@@ -721,6 +801,9 @@
     <h1>${title}</h1>
     <div class="name">${name}</div>
     <p class="message">${message}</p>
+    ${photoMarkup}
+    ${videoMarkup}
+    ${audioMarkup}
     <div class="signature">— ${signature}</div>
   </div>
 </body>
@@ -728,6 +811,18 @@
 
     const htmlFile = new File([html], 'dedicatoria-amor-amistad.html', { type: 'text/html' });
     const filesToShare = [htmlFile];
+
+    const imageFiles = [];
+    for (const src of gallerySources) {
+      try {
+        const response = await fetch(src);
+        const blob = await response.blob();
+        imageFiles.push(new File([blob], `foto-${imageFiles.length + 1}.${blob.type.split('/')[1] || 'png'}`, { type: blob.type || 'image/png' }));
+      } catch (error) {
+        console.warn('No se pudo adjuntar una foto:', error);
+      }
+    }
+    filesToShare.push(...imageFiles);
 
     let songFile = null;
     if (songInput && songInput.files && songInput.files[0]) {
@@ -738,15 +833,23 @@
       songFile = new File([blob], songLabel.textContent || 'cancion.mp3', { type: blob.type || 'audio/mpeg' });
     }
 
-    if (songFile) {
-      filesToShare.push(songFile);
+    let videoFile = null;
+    if (videoInput && videoInput.files && videoInput.files[0]) {
+      videoFile = videoInput.files[0];
+    } else if (videoPreview && videoPreview.src && !videoPreview.hidden) {
+      const response = await fetch(videoPreview.src);
+      const blob = await response.blob();
+      videoFile = new File([blob], videoLabel.textContent || 'video.mp4', { type: blob.type || 'video/mp4' });
     }
+
+    if (songFile) filesToShare.push(songFile);
+    if (videoFile) filesToShare.push(videoFile);
 
     if (navigator.share && navigator.canShare && navigator.canShare({ files: filesToShare })) {
       try {
         await navigator.share({
           title: title,
-          text: `Te preparé una dedicatoria especial 💜 para ${name}${songFile ? ' con una canción incluida' : ''}`,
+          text: `Te preparé una dedicatoria especial 💜 para ${name}${songFile ? ' con una canción incluida' : ''}${videoFile ? ' y video' : ''}`,
           files: filesToShare
         });
         return;
