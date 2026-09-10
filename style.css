@@ -459,6 +459,25 @@ body.result-mode .actionRow {
   font-weight: 800;
 }
 
+.toneBadge {
+  display: inline-flex;
+  margin: 12px auto 0;
+  padding: 7px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  color: #fff4fb;
+  background: var(--accent-soft, rgba(255, 123, 213, 0.2));
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.toneBadge[data-tone="dulce"] { color: #ffd8ea; }
+.toneBadge[data-tone="romantico"] { color: #ffb7d2; }
+.toneBadge[data-tone="amigable"] { color: #c8e7ff; }
+.toneBadge[data-tone="profundo"] { color: #e0c9ff; }
+
 .content h2 {
   font-family: Georgia, serif;
   font-size: clamp(28px, 7vw, 42px);

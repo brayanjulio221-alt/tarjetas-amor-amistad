@@ -7,6 +7,7 @@
   const resultName = document.getElementById('resultName');
   const resultText = document.getElementById('resultText');
   const resultSignature = document.getElementById('resultSignature');
+  const resultTone = document.getElementById('resultTone');
   const presetButtons = document.querySelectorAll('.presetBtn');
   const themeButtons = document.querySelectorAll('.themeChoice');
   const downloadBtn = document.getElementById('downloadBtn');
@@ -274,6 +275,8 @@
     resultName.textContent = name;
     resultText.textContent = presets[tone](name, messageInput.value.trim());
     resultSignature.textContent = '— ' + signature;
+    resultTone.textContent = `Tono ${document.getElementById('tono').options[document.getElementById('tono').selectedIndex].text}`;
+    resultTone.dataset.tone = tone;
   }
 
   function applyQuickTemplate(selectedTemplate) {
