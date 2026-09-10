@@ -43,11 +43,7 @@
   }
 
   function saveDraft() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(getCurrentDraft()));
-    } catch (error) {
-      console.warn('No se pudo guardar el borrador:', error);
-    }
+    return undefined;
   }
 
   function setGalleryFromDraft(images) {
