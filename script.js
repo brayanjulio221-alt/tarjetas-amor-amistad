@@ -167,10 +167,13 @@
     }
 
     if (location.protocol !== 'file:') {
+      if (location.hostname.includes('github.io')) {
+        return `${location.origin}${location.pathname}`;
+      }
       return location.href;
     }
 
-    return 'https://tu-sitio.com/dedicatoria-amor-amistad';
+    return 'https://brayanjulio221-alt.github.io/tarjetas-amor-amistad/';
   }
 
   const presets = {
@@ -709,6 +712,7 @@
     const message = resultText.textContent || 'Gracias por ser parte de mi vida.';
     const signature = resultSignature.textContent.replace('— ', '') || 'Con mucho cariño';
     const gallerySources = getGallerySources();
+    const shareLink = getShareLink();
     const photoMarkup = gallerySources.length
       ? `
         <div class="gallery-grid">
@@ -845,11 +849,14 @@
     if (songFile) filesToShare.push(songFile);
     if (videoFile) filesToShare.push(videoFile);
 
+    const shareText = `Te preparé una dedicatoria especial 💜 para ${name}.\n\nMira la tarjeta aquí:\n${shareLink}`;
+
     if (navigator.share && navigator.canShare && navigator.canShare({ files: filesToShare })) {
       try {
         await navigator.share({
           title: title,
-          text: `Te preparé una dedicatoria especial 💜 para ${name}${songFile ? ' con una canción incluida' : ''}${videoFile ? ' y video' : ''}`,
+          text: shareText,
+          url: shareLink,
           files: filesToShare
         });
         return;
@@ -860,9 +867,7 @@
       }
     }
 
-    const text = `Te preparé una dedicatoria especial 💜 para ${name}. Mira este mensaje bonito ✨`;
-    const finalMessage = `${text}\n\n${getShareLink()}`;
-    window.open(`https://wa.me/?text=${encodeURIComponent(finalMessage)}`, '_blank');
+    window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
   }
 
   document.getElementById('shareBtn').addEventListener('click', shareCardAsFile);
