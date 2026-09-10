@@ -333,7 +333,7 @@
   applyHeartColor(defaultHeartColor.value);
   applyTheme(document.querySelector('.themeChoice.active')?.dataset.style || 'premium');
   applyQuickTemplate(document.querySelector('.presetBtn.active')?.dataset.template || 'romantico');
-  restoreDraft();
+  localStorage.removeItem(STORAGE_KEY);
 
   ['#foto1', '#foto2', '#foto3'].forEach((selector, index) => {
     const input = document.querySelector(selector);
