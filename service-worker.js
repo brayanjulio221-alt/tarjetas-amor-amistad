@@ -1,10 +1,11 @@
-const CACHE_NAME = 'amor-amistad-v2';
+const CACHE_NAME = 'amor-amistad-v3';
 const ASSETS = [
   './',
   './index.html',
   './style.css',
   './script.js',
   './manifest.json',
+  './icon.svg',
   './icon-192.png',
   './icon-512.png'
 ];
