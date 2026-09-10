@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Para ti 💜 | Amor & Amistad</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <div class="container">
+    <div class="brand">AMOR <span>♥</span> AMISTAD</div>
+
+    <main class="card">
+      <section class="hero">
+        <div class="pill">Una dedicatoria hecha especialmente para alguien especial</div>
+        <h1>Hazle llegar un poquito de <em>amor</em>.</h1>
+        <p>Completa los datos y crea una tarjeta interactiva para enviar por WhatsApp.</p>
+      </section>
+
+      <form id="form">
+        <div class="row">
+          <div>
+            <label for="nombre">Nombre de esa persona</label>
+            <input id="nombre" placeholder="Ej. Valentina" required>
+          </div>
+          <div>
+            <label for="tipo">Relación</label>
+            <select id="tipo">
+              <option value="amor">Mi amor ❤️</option>
+              <option value="amistad">Mi mejor amigo/a 💜</option>
+              <option value="familia">Una persona especial ✨</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="mensaje">Algo que quieras decirle</label>
+          <textarea id="mensaje" placeholder="Ej. Gracias por estar conmigo en los días buenos y no tan buenos..."></textarea>
+        </div>
+
+        <input id="linkCompartir" type="hidden" value="" />
+
+        <div class="row">
+          <div>
+            <label for="firma">Tu nombre</label>
+            <input id="firma" placeholder="Ej. Brayan">
+          </div>
+          <div>
+            <label for="tono">Tono</label>
+            <select id="tono">
+              <option value="dulce">Dulce</option>
+              <option value="romantico">Romántico</option>
+              <option value="amigable">Amigable</option>
+              <option value="profundo">Emotivo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="presetPanel">
+          <label>Plantilla rápida</label>
+          <div class="presetGrid" aria-label="Plantillas rápidas">
+            <button type="button" class="presetBtn active" data-template="romantico">Romántica</button>
+            <button type="button" class="presetBtn" data-template="amistad">Amistad</button>
+            <button type="button" class="presetBtn" data-template="gratitud">Gratitud</button>
+            <button type="button" class="presetBtn" data-template="aniversario">Aniversario</button>
+          </div>
+        </div>
+
+        <div class="themePanel">
+          <label>Estilo de tarjeta</label>
+          <div class="themeGrid" aria-label="Estilos de tarjeta">
+            <button type="button" class="themeChoice active" data-style="premium">
+              <span class="swatch swatchPremium"></span>
+              <small>Premium</small>
+            </button>
+            <button type="button" class="themeChoice" data-style="luna">
+              <span class="swatch swatchLuna"></span>
+              <small>Luna</small>
+            </button>
+            <button type="button" class="themeChoice" data-style="minimal">
+              <span class="swatch swatchMinimal"></span>
+              <small>Minimal</small>
+            </button>
+            <button type="button" class="themeChoice" data-style="rosado">
+              <span class="swatch swatchRosado"></span>
+              <small>Rosado</small>
+            </button>
+            <button type="button" class="themeChoice" data-style="luxury">
+              <span class="swatch swatchLuxury"></span>
+              <small>Luxury</small>
+            </button>
+          </div>
+        </div>
+
+        <div class="heartBox">
+          <label>Elige el color de su corazón</label>
+          <div class="heartColors" role="radiogroup" aria-label="Color del corazón">
+            <label class="colorChoice red">
+              <input type="radio" name="heartColor" value="#ff4d67" checked>
+              <span>♥</span>
+              <b>Rojo</b>
+            </label>
+            <label class="colorChoice pink">
+              <input type="radio" name="heartColor" value="#ff6ec7">
+              <span>♥</span>
+              <b>Rosa</b>
+            </label>
+            <label class="colorChoice purple">
+              <input type="radio" name="heartColor" value="#a47cff">
+              <span>♥</span>
+              <b>Morado</b>
+            </label>
+            <label class="colorChoice blue">
+              <input type="radio" name="heartColor" value="#59b7ff">
+              <span>♥</span>
+              <b>Azul</b>
+            </label>
+            <label class="colorChoice green">
+              <input type="radio" name="heartColor" value="#63df9a">
+              <span>♥</span>
+              <b>Verde</b>
+            </label>
+            <label class="colorChoice yellow">
+              <input type="radio" name="heartColor" value="#ffd76a">
+              <span>♥</span>
+              <b>Amarillo</b>
+            </label>
+          </div>
+          <div class="heartNote">Puedes usar un color que represente su relación, amistad o recuerdo especial.</div>
+        </div>
+
+        <div class="photosBox">
+          <label>Agrega hasta 3 fotos para hacerla más especial</label>
+          <div class="photoInputs">
+            <label class="photoInput">
+              <span>📷</span>
+              <b>Foto 1</b>
+              <input id="foto1" type="file" accept="image/*">
+            </label>
+            <label class="photoInput">
+              <span>📷</span>
+              <b>Foto 2</b>
+              <input id="foto2" type="file" accept="image/*">
+            </label>
+            <label class="photoInput">
+              <span>📷</span>
+              <b>Foto 3</b>
+              <input id="foto3" type="file" accept="image/*">
+            </label>
+          </div>
+          <div class="photoNote">Las fotos se muestran en la tarjeta y no se suben a ningún servidor.</div>
+        </div>
+
+        <div class="videoBox">
+          <label>O agrega un video</label>
+          <label class="videoInput">
+            <span>🎬</span>
+            <b id="videoLabel">Selecciona un video</b>
+            <input id="video" type="file" accept="video/*">
+          </label>
+          <video id="videoPreview" controls hidden></video>
+          <div class="videoNote">Puedes elegir videos en lugar de fotos o combinarlos para una tarjeta más especial.</div>
+        </div>
+
+        <div class="songBox">
+          <label>Agrega una canción</label>
+          <label class="songInput">
+            <span>🎵</span>
+            <b id="songLabel">Selecciona una canción</b>
+            <input id="cancion" type="file" accept="audio/*">
+          </label>
+          <audio id="audioPreview" controls hidden></audio>
+          <div class="songNote">Puedes usar una canción que acompañe la dedicatoria antes de compartirla.</div>
+        </div>
+
+        <button class="btn" type="submit">Crear mi dedicatoria ✨</button>
+        <div class="hint">No necesitas instalar nada. Funciona directamente en el navegador.</div>
+      </form>
+
+      <section class="result" id="result">
+        <div class="message" id="messageCard">
+          <div class="hearts">
+            <div class="heart">♥</div>
+            <div class="heart">♡</div>
+            <div class="heart">♥</div>
+            <div class="heart">♡</div>
+          </div>
+
+          <div class="content">
+            <div class="eyebrow">💜 Día del Amor y la Amistad 💜</div>
+
+            <div class="loveBadge">
+              <span class="spark">✦</span>
+              <div class="bigHeart">♥</div>
+              <span class="spark">✦</span>
+            </div>
+
+            <p class="holidayText">Hoy celebramos los detalles, los recuerdos y a esas personas que hacen la vida más bonita.</p>
+
+            <div class="gallery" id="gallery">
+              <div class="emptyPhoto">Tu foto aparecerá aquí 📷</div>
+              <div class="emptyPhoto">Agrega un recuerdo ✨</div>
+              <div class="emptyPhoto">Hazlo inolvidable 💕</div>
+            </div>
+
+            <h2 id="resultTitle">Feliz Amor y Amistad</h2>
+            <div class="to" id="resultName"></div>
+            <p class="quote" id="resultText"></p>
+            <div class="signature" id="resultSignature"></div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <div class="actionRow">
+            <button class="btn secondary" id="editBtn">Editar</button>
+            <button class="btn secondary" id="downloadBtn">PNG</button>
+            <button class="btn secondary" id="downloadHtmlBtn">Archivo HTML</button>
+          </div>
+          <button class="btn shareBtn" id="shareBtn">Enviar por WhatsApp</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>Hecho con cariño · Amor & Amistad 💜</footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
