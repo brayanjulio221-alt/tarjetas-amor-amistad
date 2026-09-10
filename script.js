@@ -11,6 +11,7 @@
   const themeButtons = document.querySelectorAll('.themeChoice');
   const downloadBtn = document.getElementById('downloadBtn');
   const downloadHtmlBtn = document.getElementById('downloadHtmlBtn');
+  const installBtn = document.getElementById('installBtn');
   const shareUrlInput = document.getElementById('linkCompartir');
   const songInput = document.getElementById('cancion');
   const songLabel = document.getElementById('songLabel');
@@ -871,4 +872,35 @@
   }
 
   document.getElementById('shareBtn').addEventListener('click', shareCardAsFile);
+
+  let deferredPrompt = null;
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js').catch((error) => {
+        console.warn('No se pudo registrar el service worker:', error);
+      });
+    });
+  }
+
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredPrompt = event;
+    if (installBtn) installBtn.hidden = false;
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      installBtn.hidden = true;
+    });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    if (installBtn) installBtn.hidden = true;
+  });
 })();
